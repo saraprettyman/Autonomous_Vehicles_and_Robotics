@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 def LoadTimestamps(fn: str):
     """
     This function loads a CSV file containing timestamps.
-    """
+    """   
     arr = np.loadtxt(fn, delimiter=',', dtype=np.float64)
     arr = arr - arr[0]
     return arr[:]
@@ -45,7 +45,6 @@ def ComputeDiffStats(stamps):
         delta_mean = np.mean(diffs)
 
     return (delta_min, delta_max, delta_median, delta_mean)
-
 
 def ComputeKolmogorovSmirnovStatistic(stamps, start, end):
     """
@@ -91,7 +90,6 @@ def main():
     start_time = timestamps[0]
     end_time = timestamps[-1]
     print(f'Start & End Times: [{start_time}, {end_time}]. Window Size: {args.window_size}s.')
-
 
     # Simulate time steps
     dt_step = 1.0 / args.algorithm_rate_hz
