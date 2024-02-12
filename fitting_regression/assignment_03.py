@@ -9,7 +9,7 @@ import argparse
 import math
 import matplotlib.pyplot as plt
 from sklearn import linear_model
-import time
+import timeit # CHANGE FROM BYBEE CODE, using timeit as it is better for accuracy of calculating median time
 
 def LoadCsv(fn: str):
     """
@@ -44,7 +44,6 @@ def ParseArgs():
     args = parser.parse_args()
     return args
 
-
 def main():
     # Parse Arguments
     args = ParseArgs()
@@ -54,27 +53,39 @@ def main():
     print(f'Loaded {xy.shape[0]} data points.')
 
     # Fit lines
-    t_start = time.time()
-    ransac_y = RansacLine(xy, args.i)
-    t_end = time.time()
-    print(f'RANSAC took {(t_end - t_start)*1000} milliseconds with RANSAC threshold {args.i}.')
+    # For RANSAC. The next 7 rows are CHANGED FROM BYBEE CODE
+    ransac_times = []
+    for _ in range(50):
+        t_start = timeit.default_timer() 
+        ransac_y = RansacLine(xy, args.i)
+        t_end = timeit.default_timer()
+        ransac_times.append((t_end - t_start)*1000)
+    print(f'RANSAC median time: {np.max(ransac_times)} milliseconds with RANSAC threshold {args.i}.')
 
-    t_start = time.time()
-    huber_y = HuberLine(xy)
-    t_end = time.time()
-    print(f'Huber took {(t_end - t_start)*1000} milliseconds.')
+    # For Huber. The next 7 rows are CHANGED FROM BYBEE CODE
+    huber_times = []
+    for _ in range(50):
+        t_start = timeit.default_timer()
+        huber_y = HuberLine(xy)
+        t_end = timeit.default_timer()
+        huber_times.append((t_end - t_start)*1000)
+    print(f'Huber median time: {np.max(huber_times)} milliseconds.')
 
-    t_start = time.time()
-    ls_y = LeastSquaresLine(xy)
-    t_end = time.time()
-    print(f'Least-Squares took {(t_end - t_start)*1000} milliseconds.')
+    # For Least-Squares. The next 7 rows are CHANGED FROM BYBEE CODE
+    ls_times = []
+    for _ in range(50):
+        t_start = timeit.default_timer()
+        ls_y = LeastSquaresLine(xy)
+        t_end = timeit.default_timer()
+        ls_times.append((t_end - t_start)*1000)
+    print(f'Least-Squares median time: {np.max(ls_times)} milliseconds.')
 
     # Now we want to plot the data!
     fig, ax = plt.subplots(2, 2)
 
     for i in range(2):
         for j in range (2):
-            ax[i, j].scatter(xy[:,0], xy[:,1], s=0.5, label='Original Points')
+            ax[i, j].scatter(xy[:,0], xy[:,1], s=8, label='Original Points') # CHANGE TO BYBEE CODE, s=0.5 to s=8
             ax[i, j].legend()
             ax[i, j].set_aspect('equal', adjustable='datalim')
             ax[i, j].grid()
