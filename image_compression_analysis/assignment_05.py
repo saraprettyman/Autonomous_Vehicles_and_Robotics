@@ -69,6 +69,7 @@ def main():
     # Plot the image size by compression and a straight line for 0.55 MB
     plt.plot(jpeg_quality_levels, [os.path.getsize(folder_path + image_name + '_' + str(jql) + '.jpg')/1e6 for jql in jpeg_quality_levels], label='Image Size (MB)')
     plt.axhline(y=0.55, color='r', linestyle='-', label='0.55 MB')
+    plt.axvline(x=30, color='r', linestyle='-', label='Quality Level 30')
     plt.xlabel('JPEG Quality Level')
     plt.ylabel('Image Size (MB)')
     plt.title('Image Size by Compression Level')

@@ -26,8 +26,7 @@ for filename in os.listdir(dng_dir):
         if filename == "image_3.dng": 
             cropped_rgb = resized_rgb[:-360, :]
         elif filename == "image_2.dng":
-            cropped_rgb = resized_rgb[:-180:, :]  
-            cropped_rgb = resized_rgb[180:, :]  
+            cropped_rgb = resized_rgb[180:-180, :]   
         else: 
             cropped_rgb = resized_rgb[360:, :]  
 
