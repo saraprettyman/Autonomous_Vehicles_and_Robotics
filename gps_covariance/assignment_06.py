@@ -171,7 +171,7 @@ def main():
     ax.legend()
     ax.set_aspect('equal', adjustable='datalim')
     ax.grid()
-    plt.show()
+    plt.savefig('plots/plot_e.png')
 
 
 # Entry Point
